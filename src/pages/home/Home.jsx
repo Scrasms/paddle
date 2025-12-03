@@ -14,16 +14,18 @@ function Home() {
         <h1> Welcome to Paddle! </h1>
         <img className = "logo" src={logo}/>
         <div className = "button-container">
-          <button className="home-button"> Stats </button>
+          <button className="home-button"> STATS </button>
 
           <button
             className="home-button"
-            onClick={() => navigate("/game")}> Play
+            onClick={() => navigate("/game")}>
+            PLAY
           </button>
 
           <button
             className="home-button"
-            onClick={() => setThemeNo((themeNo + 1) % themeList.length)}> Theme
+            onClick={() => setThemeNo((themeNo + 1) % themeList.length)}>
+            {themeList[themeNo].toUpperCase()}
           </button>
         </div>
       </div>
