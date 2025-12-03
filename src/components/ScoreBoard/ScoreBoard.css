@@ -1,0 +1,9 @@
+.score-container {
+    width: 30vw;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-evenly;
+
+    font-size: 4vw;
+}
