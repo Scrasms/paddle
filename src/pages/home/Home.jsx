@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { ThemeContext } from "../../context/ThemeContext"
 import logo from "../../assets/paddle-large.png"
 import './Home.css'
@@ -7,13 +7,6 @@ import './Home.css'
 function Home() {
   const navigate = useNavigate(null)
   const {themeList, themeNo, setThemeNo} = useContext(ThemeContext)
-
-  // Update theme
-  useEffect(() => {
-    const themeClass = themeList[themeNo] + "-theme"
-    document.body.className = themeClass
-
-  }, [themeNo])
 
   return (
     <>
