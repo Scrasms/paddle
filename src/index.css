@@ -1,9 +1,49 @@
-:root {
-  --default-font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --default-font-size: 20px;
+.default-theme {
+  --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-size: 20px;
+  --color: rgba(255, 255, 255, 0.87);
+  --background-color: #242424;
+  --button-color: rgb(78, 78, 78);
+}
 
-  --default-color: rgba(255, 255, 255, 0.87);
-  --default-background-color: #242424;
+.candy-theme {
+  --font-family: "Pacifico", cursive;
+  --font-size: 20px;
+  --color: rgba(175, 250, 255, 0.87);
+  --background-color: #e6b0dd;
+  --button-color: rgb(221, 135, 221);
+}
+
+.cookie-theme {
+  --font-family: "Concert One", sans-serif;
+  --font-size: 20px;
+  --color: rgb(77, 52, 32, 0.87);
+  --background-color: #e9d6a3de;
+  --button-color: rgb(185, 141, 105);
+}
+
+.hacker-theme {
+  --font-family: "Google Sans Code", monospace;
+  --font-size: 20px;
+  --color: rgba(34, 238, 102, 0.87);
+  --background-color: #000000de;
+  --button-color: rgb(26, 31, 25);
+}
+
+.royal-theme {
+  --font-family: "Cookie", cursive;
+  --font-size: 20px;
+  --color: rgba(189, 187, 82, 0.87);
+  --background-color: #592f6dde;
+  --button-color: rgb(54, 28, 87);
+}
+
+.panda-theme {
+  --font-family: "Chango", sans-serif;
+  --font-size: 20px;
+  --color: rgba(56, 56, 56, 0.87);
+  --background-color: #fafafa;
+  --button-color: rgb(214, 213, 213);
 }
 
 * {
@@ -13,10 +53,29 @@
 }
 
 body {
-  font-family: var(--default-font-family);
-  font-size: var(--default-font-size);
+  font-family: var(--font-family);
+  font-size: var(--font-size);
 
-  color: var(--default-color);
-  background-color: var(--default-background-color);
-  color-scheme: light dark;
+  color: var(--color);
+  background-color: var(--background-color);
+}
+
+button {
+  padding: 0.5vh 2vw;
+  border: none;
+  border-radius: 10px;
+
+  font-family: var(--font-family);
+  font-size: 2vw;
+
+  color: var(--color);
+  background-color: var(--button-color);
+}
+
+button:hover {
+  opacity: 0.4;
+}
+
+button:active {
+  opacity: 0.1;
 }

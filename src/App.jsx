@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router"
+import ThemeProvider from "./context/ThemeProvider"
 import Home from "./pages/home/Home"
 import Game from "./pages/game/Game"
 
@@ -6,10 +7,12 @@ function App() {
   return (
     <>
       <BrowserRouter basename="/paddle">
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/game" element={<Game/>}/>
-        </Routes>
+        <ThemeProvider>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/game" element={<Game/>}/>
+          </Routes>
+        </ThemeProvider>
       </BrowserRouter>
     </>
   )
