@@ -4,6 +4,7 @@ function Home() {
 
   return (
     <>
+      <h1> Welcome to Paddle! </h1>
     </>
   )
 }

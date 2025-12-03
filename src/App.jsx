@@ -5,7 +5,7 @@ import Game from "./pages/game/Game"
 function App() {
   return (
     <>
-      <BrowserRouter basename="/pongle">
+      <BrowserRouter basename="/paddle">
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/game" element={<Game/>}/>
