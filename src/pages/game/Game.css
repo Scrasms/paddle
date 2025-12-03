@@ -7,4 +7,6 @@
     left: 0%;
 
     border-right: 5px dotted var(--color);
+
+    z-index: -1;
 }
