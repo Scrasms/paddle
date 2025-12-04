@@ -1,0 +1,15 @@
+.paddle {
+    height: 20vh;
+    width: 1.2vw;
+    background-color: var(--color);
+    position: absolute;
+    outline: none;
+}
+
+.player-paddle {
+    left: 10%;
+}
+
+.computer-paddle {
+    right: 10%;
+}
