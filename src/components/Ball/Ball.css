@@ -1,0 +1,9 @@
+.ball {
+    height: max(2vw, 3vh);
+    width: max(2vw, 3vh);
+    border-radius: 50%;
+    background-color: var(--color);
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+}

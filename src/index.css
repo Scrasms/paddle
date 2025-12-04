@@ -60,6 +60,7 @@ body {
   background-color: var(--background-color);
 
   user-select: none;
+  overflow: hidden;
 }
 
 button {

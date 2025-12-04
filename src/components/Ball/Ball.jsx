@@ -1,9 +1,9 @@
 import './Ball.css'
 
-function Ball() {
+function Ball({ballRef}) {
   return (
     <>
-
+      <div className="ball" ref={ballRef}></div>
     </>
   )
 }

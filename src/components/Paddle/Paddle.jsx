@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './Paddle.css'
 
 function Paddle({owner}) {
+  const speed = 8
   const paddleRef = useRef(null)
   const [y, setY] = useState(40)
 
@@ -13,10 +14,6 @@ function Paddle({owner}) {
     paddleRef.current.classList.add(owner + '-paddle')
   }, [])
 
-  useEffect(() => {
-    paddleRef.current.style.top = `${y}%`
-  }, [y])
-
   // Refocus on paddle every time page is clicked
   useEffect(() => {
     if (owner === "player") {
@@ -26,13 +23,18 @@ function Paddle({owner}) {
     }
   }, [])
 
+  // Move paddle
+  useEffect(() => {
+    paddleRef.current.style.top = `${y}%`
+  }, [y])
+
   const handleKeyDown = (event) => {
     switch(event.key) {
       case "ArrowUp":
-        setY(y => Math.max(0, y - 2))
+        setY(y => Math.max(0, y - speed))
         break
       case "ArrowDown":
-        setY(y => Math.min(y + 2, 80))
+        setY(y => Math.min(y + speed, 80))
         break
       default:
         break
