@@ -1,2 +1,6 @@
-# Paddle
+# Awesome Paddle
 
+
+
+Credits:
+Gumbo64
