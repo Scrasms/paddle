@@ -63,22 +63,22 @@ function Game() {
     }
 
     // Bounce on paddle collision
-    if (
-      xDir.current < 0 &&
+    if (isX &&
+      posDir.current < 0 &&
       ballRect.left <= playerRect.right &&
       ballRect.right >= playerRect.left &&
       ballRect.top <= playerRect.bottom &&
       ballRect.bottom >= playerRect.top
     ) {
-      xDir.current = 1;
-    } else if (
-      xDir.current > 0 &&
+      posDir.current = 1;
+    } else if (isX &&
+      posDir.current > 0 &&
       ballRect.left <= compRect.right &&
       ballRect.right >= compRect.left &&
       ballRect.top <= compRect.bottom &&
       ballRect.bottom >= compRect.top
     ) {
-      xDir.current = -1;
+      posDir.current = -1;
     }
 
     return newPos
