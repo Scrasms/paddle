@@ -5,90 +5,105 @@ import Ball from '../../components/Ball/Ball'
 import './Game.css'
 
 function Game() {
-  const ballSpeed = 1
+  const ballSpeed = 5
   const ballRef = useRef(null)
-  const [ballX, setBallX] = useState(50)
-  const [ballY, setBallY] = useState(50)
+  const [ballX, setBallX] = useState(window.innerWidth / 2)
+  const [ballY, setBallY] = useState(window.innerHeight / 2)
   const [gameRunning, setGameRunning] = useState(true)
   const [leftScore, setLeftScore] = useState(0)
   const [rightScore, setRightScore] = useState(0)
   const xDir = useRef(-1)
   const yDir = useRef(1)
 
+  // Main game loop
   useEffect(() => {
-    const interval = setInterval(() => {
+    let animationID
+    const gameLoop = () => {
       handleBall()
-    }, 16);
+      animationID = requestAnimationFrame(gameLoop)
+    }
 
-    return () => clearInterval(interval)
+    if (gameRunning) {
+      gameLoop()
+    }
+
+    return () => cancelAnimationFrame(animationID)
   }, [gameRunning])
 
   // Move ball
   useEffect(() => {
-    ballRef.current.style.left = `${ballX}%`
-    ballRef.current.style.top = `${ballY}%`
+    ballRef.current.style.transform = `translate(${ballX}px, ${ballY}px)`
   }, [ballX, ballY])
 
-  // Handle ball movement logic
+  // Update ball movement
   const handleBall = () => {
-    setBallX(x => updatePos(x, xDir, true))
-    setBallY(y => updatePos(y, yDir, false))
+    setBallX(x => updateX(x))
+    setBallY(y => updateY(y))
   }
 
-  // Collision logic
-  const updatePos = (pos, posDir, isX) => {
-    const ballRect = ballRef.current.getBoundingClientRect();
-		const playerRect = document.querySelector('.player-paddle').getBoundingClientRect();
-		const compRect = document.querySelector('.computer-paddle').getBoundingClientRect();
+  // Handle x-collisions
+  const updateX = (x) => {
+    const ballRect = ballRef.current.getBoundingClientRect()
+		const playerRect = document.querySelector('.player-paddle').getBoundingClientRect()
+		const compRect = document.querySelector('.computer-paddle').getBoundingClientRect()
 
-    let newPos = pos + ballSpeed * posDir.current
+    let newX = x + ballSpeed * xDir.current
 
-    // Change directions whenever the border is hit OR end the round
-    if (newPos <= 0) {
-      newPos = 0
-      if (isX) {
-        setRightScore(score => score + 1)
-        resetGame()
-      } else {
-        posDir.current *= -1
-      }
-    } else if (newPos >= 100) {
-      newPos = 100
-      if (isX) {
-        setLeftScore(score => score + 1)
-        resetGame()
-      } else {
-        posDir.current *= -1
-      }
+    // End the round when the x-border is hit
+    if (newX <= 0) {
+      newX = 0
+      setRightScore(score => score + 1)
+      resetGame()
+    } else if (newX >= window.innerWidth - ballRect.width) {
+      newX = window.innerWidth
+      setLeftScore(score => score + 1)
+      resetGame()
     }
 
     // Bounce on paddle collision
-    if (isX &&
-      posDir.current < 0 &&
+    if (xDir.current < 0 &&
       ballRect.left <= playerRect.right &&
       ballRect.right >= playerRect.left &&
       ballRect.top <= playerRect.bottom &&
       ballRect.bottom >= playerRect.top
     ) {
-      posDir.current = 1;
-    } else if (isX &&
-      posDir.current > 0 &&
+      xDir.current *= -1
+    } else if (xDir.current > 0 &&
       ballRect.left <= compRect.right &&
       ballRect.right >= compRect.left &&
       ballRect.top <= compRect.bottom &&
       ballRect.bottom >= compRect.top
     ) {
-      posDir.current = -1;
+      xDir.current *= -1
     }
 
-    return newPos
+    return newX
+  }
+
+  // Handle y-collisions
+  const updateY = (y) => {
+    const ballRect = ballRef.current.getBoundingClientRect()
+
+    let newY = y + ballSpeed * yDir.current
+
+    // Bounce when y-coordinate is hit
+    if (newY <= 0) {
+      newY = 0
+      yDir.current *= -1
+    } else if (newY + ballRect.height >= window.innerHeight) {
+      newY = window.innerHeight - ballRect.height
+      yDir.current *= -1
+    }
+
+    return newY
   }
 
   // Reset game state
   const resetGame = () => {
-    setBallX(50)
-    setBallY(50)
+    setBallX(window.innerWidth / 2)
+    setBallY(window.innerHeight / 2)
     xDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1
+    yDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1
   }
 
   return (
