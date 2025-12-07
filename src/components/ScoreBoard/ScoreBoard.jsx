@@ -1,9 +1,9 @@
-import { useContext } from 'react'
-import { ScoreContext } from '../../contexts/Score/ScoreContext'
-import './ScoreBoard.css'
+import { useContext } from 'react';
+import { ScoreContext } from '../../contexts/Score/ScoreContext';
+import './ScoreBoard.css';
 
 function ScoreBoard() {
-  const {leftScore, rightScore} = useContext(ScoreContext)
+  const { leftScore, rightScore } = useContext(ScoreContext);
   return (
     <>
       <div className="score-container">
@@ -11,7 +11,7 @@ function ScoreBoard() {
         <div className="right-score">{rightScore}</div>
       </div>
     </>
-  )
+  );
 }
 
-export default ScoreBoard
+export default ScoreBoard;

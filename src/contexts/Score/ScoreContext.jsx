@@ -1,6 +1,6 @@
-import { createContext } from "react"
+import { createContext } from 'react';
 
 export const ScoreContext = createContext({
-    leftScore: 0,
-    rightScore: 0,
-})
+  leftScore: 0,
+  rightScore: 0,
+});

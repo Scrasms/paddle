@@ -1,5 +1,5 @@
-import { createContext } from "react"
+import { createContext } from 'react';
 
 export const ThemeContext = createContext({
-    themeNo: 0
-})
+  themeNo: 0,
+});
