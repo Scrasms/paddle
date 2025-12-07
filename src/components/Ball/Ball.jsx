@@ -5,12 +5,12 @@ import './Ball.css'
 function Ball() {
   const ballSpeed = 500
   const ballRef = useRef(null)
+  const prevTimeRef = useRef(performance.now())
+  const xDir = useRef(-1)
+  const yDir = useRef(1)
   const [ballX, setBallX] = useState(window.innerWidth / 2)
   const [ballY, setBallY] = useState(window.innerHeight / 2)
   const [gameRunning, setGameRunning] = useState(true)
-  const xDir = useRef(-1)
-  const yDir = useRef(1)
-  const prevTimeRef = useRef(performance.now())
 
   const {setLeftScore, setRightScore} = useContext(ScoreContext)
 
@@ -38,7 +38,7 @@ function Ball() {
     ballRef.current.style.transform = `translate(${ballX}px, ${ballY}px)`
   }, [ballX, ballY])
 
-  // Update ball movement
+  // Handle ball movement
   const handleBall = (delta) => {
     setBallX(x => updateX(x, delta))
     setBallY(y => updateY(y, delta))
