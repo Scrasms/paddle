@@ -61,9 +61,9 @@ function Paddle({owner}) {
   // Handle paddle movement
   const handlePaddle = (delta) => setY(y => updateY(y, delta))
 
+  // Calculate new y-coordinate
   const updateY = (y, delta) => {
     const paddleHeight = paddleRef.current.getBoundingClientRect().height
-
     let newY = y + padSpeed * padDir.current * delta
 
     // Clamp to window
@@ -71,6 +71,7 @@ function Paddle({owner}) {
   }
 
   const handleKeyDown = (event) => {
+    // Set paddle direction appropriately
     if (event.key === "ArrowUp") {
       padDir.current = -1
     } else if (event.key === "ArrowDown") {
@@ -79,7 +80,10 @@ function Paddle({owner}) {
   }
 
   const handleKeyUp = (event) => {
-    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+    // Stop paddle movement when associated key released
+    if (event.key === "ArrowUp" && padDir.current === -1 ||
+      event.key === "ArrowDown" && padDir.current === 1
+    ) {
       padDir.current = 0
     }
   }
