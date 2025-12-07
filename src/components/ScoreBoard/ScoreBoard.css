@@ -6,4 +6,7 @@
     justify-content: space-evenly;
 
     font-size: 4vw;
+
+    position: absolute;
+    left: 35%;
 }

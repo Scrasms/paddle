@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router"
-import ThemeProvider from "./context/ThemeProvider"
+import ThemeProvider from "./contexts/Theme/ThemeProvider"
 import Home from "./pages/home/Home"
 import Game from "./pages/game/Game"
 

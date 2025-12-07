@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import { useContext } from "react"
-import { ThemeContext } from "../../context/ThemeContext"
+import { ThemeContext } from "../../contexts//Theme/ThemeContext"
 import logo from "../../assets/paddle-large.png"
 import './Home.css'
 

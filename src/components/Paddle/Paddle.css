@@ -3,6 +3,7 @@
     width: 1.2vw;
     background-color: var(--color);
     position: absolute;
+    top: 0;
     outline: none;
 }
 

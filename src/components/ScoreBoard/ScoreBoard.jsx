@@ -1,6 +1,9 @@
+import { useContext } from 'react'
+import { ScoreContext } from '../../contexts/Score/ScoreContext'
 import './ScoreBoard.css'
 
-function ScoreBoard({leftScore, rightScore}) {
+function ScoreBoard() {
+  const {leftScore, rightScore} = useContext(ScoreContext)
   return (
     <>
       <div className="score-container">
