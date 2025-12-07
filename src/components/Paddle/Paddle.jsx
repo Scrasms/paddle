@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './Paddle.css'
 
 function Paddle({owner}) {
-  const speed = 20
+  const speed = 50
   const paddleRef = useRef(null)
   const [y, setY] = useState(0)
 

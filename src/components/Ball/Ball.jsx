@@ -3,26 +3,31 @@ import { ScoreContext } from '../../contexts/Score/ScoreContext'
 import './Ball.css'
 
 function Ball() {
-  const ballSpeed = 5
+  const ballSpeed = 500
   const ballRef = useRef(null)
   const [ballX, setBallX] = useState(window.innerWidth / 2)
   const [ballY, setBallY] = useState(window.innerHeight / 2)
   const [gameRunning, setGameRunning] = useState(true)
   const xDir = useRef(-1)
   const yDir = useRef(1)
+  const prevTimeRef = useRef(performance.now())
 
   const {setLeftScore, setRightScore} = useContext(ScoreContext)
 
   // Main game loop
   useEffect(() => {
     let animationID
-    const gameLoop = () => {
-      handleBall()
+    const gameLoop = (currentTime) => {
+      const delta = (currentTime - prevTimeRef.current) / 1000
+      prevTimeRef.current = currentTime
+
+      handleBall(delta)
       animationID = requestAnimationFrame(gameLoop)
     }
 
     if (gameRunning) {
-      gameLoop()
+      prevTimeRef.current = performance.now()
+      animationID = requestAnimationFrame(gameLoop)
     }
 
     return () => cancelAnimationFrame(animationID)
@@ -34,18 +39,18 @@ function Ball() {
   }, [ballX, ballY])
 
   // Update ball movement
-  const handleBall = () => {
-    setBallX(x => updateX(x))
-    setBallY(y => updateY(y))
+  const handleBall = (delta) => {
+    setBallX(x => updateX(x, delta))
+    setBallY(y => updateY(y, delta))
   }
 
   // Handle x-collisions
-  const updateX = (x) => {
+  const updateX = (x, delta) => {
     const ballRect = ballRef.current.getBoundingClientRect()
 		const playerRect = document.querySelector('.player-paddle').getBoundingClientRect()
 		const compRect = document.querySelector('.computer-paddle').getBoundingClientRect()
 
-    let newX = x + ballSpeed * xDir.current
+    let newX = x + ballSpeed * xDir.current * delta
 
     // End the round when the x-border is hit
     if (newX <= 0) {
@@ -79,10 +84,10 @@ function Ball() {
   }
 
   // Handle y-collisions
-  const updateY = (y) => {
+  const updateY = (y, delta) => {
     const ballRect = ballRef.current.getBoundingClientRect()
 
-    let newY = y + ballSpeed * yDir.current
+    let newY = y + ballSpeed * yDir.current * delta
 
     // Bounce when y-coordinate is hit
     if (newY <= 0) {
@@ -102,6 +107,7 @@ function Ball() {
     setBallY(window.innerHeight / 2)
     xDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1
     yDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1
+    prevTimeRef.current = performance.now()
   }
 
   return (
