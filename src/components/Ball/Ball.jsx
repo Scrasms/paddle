@@ -113,6 +113,10 @@ function Ball() {
     setBallY(window.innerHeight / 2);
     xDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1;
     yDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1;
+
+    setGameRunning(false)
+    setTimeout(() => setGameRunning(true), "3000")
+
     prevTimeRef.current = performance.now();
   };
 
