@@ -9,6 +9,7 @@ function Ball() {
   const prevTimeRef = useRef(performance.now());
   const xDir = useRef(-1);
   const yDir = useRef(1);
+  const winner = useRef("");
 
   const [ballX, setBallX] = useState(0);
   const [ballY, setBallY] = useState(0);
@@ -40,6 +41,20 @@ function Ball() {
     return () => cancelAnimationFrame(animationID);
   }, [gameRunning]);
 
+  // Update score
+  useEffect(() => {
+    if (winner.current === 'right') {
+      setRightScore((score) => score + 1);
+    } else if (winner.current === 'left') {
+      setLeftScore((score) => score + 1);
+    }
+
+    if (winner.current !== '') {
+      winner.current = '';
+      resetGame();
+    }
+  }, [ballX])
+
   // Move ball
   useEffect(() => {
     ballRef.current.style.transform = `translate(${ballX}px, ${ballY}px)`;
@@ -66,12 +81,10 @@ function Ball() {
     // End the round when the x-border is hit
     if (newX <= 0) {
       newX = 0;
-      setRightScore((score) => score + 1);
-      resetGame();
+      winner.current = 'right';
     } else if (newX >= window.innerWidth - ballRect.width) {
       newX = window.innerWidth;
-      setLeftScore((score) => score + 1);
-      resetGame();
+      winner.current = 'left';
     }
 
     // Bounce on paddle collision

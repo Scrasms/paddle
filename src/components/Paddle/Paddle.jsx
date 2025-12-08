@@ -78,16 +78,17 @@ function Paddle({ owner }) {
       const paddleCentre = paddleRect.top + paddleRect.height / 2;
       const ballCentre = ballRect.top + ballRect.height / 2;
 
-      const buffer = 20;
-      const error = Math.random() * 30;
+      // Make AI slower to react with delay
       const delay = 0.12;
-
       timeRef.current += delta;
 
-      // Prevent jitter and also make AI dumber with delay and error margin
-      if (timeRef.current >= delay) {
-        // Prevent jitter when round ends
-        const target = gameRunning ? ballCentre + error : ballCentre;
+      // Prevent jitter with buffer and give AI error margin with error
+      // When game is not running, we do not want the paddle spasming so disable delay and error
+      if (timeRef.current >= delay || !gameRunning) {
+        const buffer = 20;
+        const error = gameRunning ? Math.random() * 30 : 0;
+        console.log(gameRunning)
+        const target = ballCentre + error;
         const diff = target - paddleCentre;
 
         if (Math.abs(diff) < buffer) {
