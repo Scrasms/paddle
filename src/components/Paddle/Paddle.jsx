@@ -1,13 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { GameStateContext } from '../../contexts/GameState/GameStateContext';
 import './Paddle.css';
 
 function Paddle({ owner }) {
   const padSpeed = 1000;
+
   const paddleRef = useRef(null);
   const timeRef = useRef(0);
   const padDir = useRef(0);
   const prevTimeRef = useRef(performance.now());
+
   const [y, setY] = useState(0);
+
+  const { gameRunning } = useContext(GameStateContext)
 
   useEffect(() => {
     // Focus paddle on mount
@@ -57,23 +62,21 @@ function Paddle({ owner }) {
     return () => {
       cancelAnimationFrame(animationID);
     };
-  }, []);
+  }, [gameRunning]);
 
   // Handle paddle movement
   const handlePaddle = (delta) => setY((y) => updateY(y, delta));
 
   // Calculate new y-coordinate
   const updateY = (y, delta) => {
-    const paddleRect = paddleRef.current.getBoundingClientRect()
+    const paddleRect = paddleRef.current.getBoundingClientRect();
 
     // Get padDir from location of ball respective to paddle
     if (owner === 'computer') {
-      const ballRect = document
-        .querySelector('.ball')
-        .getBoundingClientRect();
+      const ballRect = document.querySelector('.ball').getBoundingClientRect();
 
-      const paddleCentre = paddleRect.top + paddleRect.height / 2
-      const ballCentre = ballRect.top + ballRect.height / 2
+      const paddleCentre = paddleRect.top + paddleRect.height / 2;
+      const ballCentre = ballRect.top + ballRect.height / 2;
 
       const buffer = 20;
       const error = Math.random() * 30;
@@ -83,7 +86,8 @@ function Paddle({ owner }) {
 
       // Prevent jitter and also make AI dumber with delay and error margin
       if (timeRef.current >= delay) {
-        const target = ballCentre + error;
+        // Prevent jitter when round ends
+        const target = gameRunning ? ballCentre + error : ballCentre;
         const diff = target - paddleCentre;
 
         if (Math.abs(diff) < buffer) {

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ScoreContext } from '../../contexts/Score/ScoreContext';
+import { GameStateContext } from '../../contexts/GameState/GameStateContext';
 import './Ball.css';
 
 function Ball() {
@@ -8,18 +9,19 @@ function Ball() {
   const prevTimeRef = useRef(performance.now());
   const xDir = useRef(-1);
   const yDir = useRef(1);
+
   const [ballX, setBallX] = useState(0);
   const [ballY, setBallY] = useState(0);
-  const [gameRunning, setGameRunning] = useState(true);
 
+  const {gameRunning, setGameRunning} = useContext(GameStateContext);
   const { setLeftScore, setRightScore } = useContext(ScoreContext);
 
   // Main game loop
   useEffect(() => {
     // Set correct initial height on mount (so ballRef != null)
-    const ballRect = ballRef.current.getBoundingClientRect()
-    setBallX(window.innerWidth / 2 - ballRect.width / 2)
-    setBallY(window.innerHeight / 2 - ballRect.height / 2)
+    const ballRect = ballRef.current.getBoundingClientRect();
+    setBallX(window.innerWidth / 2 - ballRect.width / 2);
+    setBallY(window.innerHeight / 2 - ballRect.height / 2);
 
     let animationID;
     const gameLoop = (currentTime) => {
@@ -119,8 +121,8 @@ function Ball() {
     xDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1;
     yDir.current = Math.round(Math.random() * 100) < 50 ? -1 : 1;
 
-    setGameRunning(false)
-    setTimeout(() => setGameRunning(true), "3000")
+    setGameRunning(false);
+    setTimeout(() => setGameRunning(true), '3000');
 
     prevTimeRef.current = performance.now();
   };
