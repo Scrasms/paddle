@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router';
+import { BrowserRouter, Routes, Route, HashRouter } from 'react-router';
 import ThemeProvider from './contexts/Theme/ThemeProvider';
 import Home from './pages/home/Home';
 import Game from './pages/game/Game';
@@ -6,14 +6,14 @@ import Game from './pages/game/Game';
 function App() {
   return (
     <>
-      <BrowserRouter basename="/paddle">
+      <HashRouter>
         <ThemeProvider>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/game" element={<Game />} />
           </Routes>
         </ThemeProvider>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
