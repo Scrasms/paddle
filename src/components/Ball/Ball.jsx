@@ -3,19 +3,24 @@ import { ScoreContext } from '../../contexts/Score/ScoreContext';
 import './Ball.css';
 
 function Ball() {
-  const ballSpeed = 500;
+  const ballSpeed = 1000;
   const ballRef = useRef(null);
   const prevTimeRef = useRef(performance.now());
   const xDir = useRef(-1);
   const yDir = useRef(1);
-  const [ballX, setBallX] = useState(window.innerWidth / 2);
-  const [ballY, setBallY] = useState(window.innerHeight / 2);
+  const [ballX, setBallX] = useState(0);
+  const [ballY, setBallY] = useState(0);
   const [gameRunning, setGameRunning] = useState(true);
 
   const { setLeftScore, setRightScore } = useContext(ScoreContext);
 
   // Main game loop
   useEffect(() => {
+    // Set correct initial height on mount (so ballRef != null)
+    const ballRect = ballRef.current.getBoundingClientRect()
+    setBallX(window.innerWidth / 2 - ballRect.width / 2)
+    setBallY(window.innerHeight / 2 - ballRect.height / 2)
+
     let animationID;
     const gameLoop = (currentTime) => {
       const delta = (currentTime - prevTimeRef.current) / 1000;

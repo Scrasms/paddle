@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import './Paddle.css';
 
 function Paddle({ owner }) {
-  const padSpeed = 800;
+  const padSpeed = 1000;
   const paddleRef = useRef(null);
+  const timeRef = useRef(0);
   const padDir = useRef(0);
   const prevTimeRef = useRef(performance.now());
   const [y, setY] = useState(0);
@@ -40,8 +41,6 @@ function Paddle({ owner }) {
 
   // Animations
   useEffect(() => {
-    if (owner !== 'player') return;
-
     // Paddle animation loop
     let animationID;
     const paddleLoop = (currentTime) => {
@@ -65,11 +64,42 @@ function Paddle({ owner }) {
 
   // Calculate new y-coordinate
   const updateY = (y, delta) => {
-    const paddleHeight = paddleRef.current.getBoundingClientRect().height;
+    const paddleRect = paddleRef.current.getBoundingClientRect()
+
+    // Get padDir from location of ball respective to paddle
+    if (owner === 'computer') {
+      const ballRect = document
+        .querySelector('.ball')
+        .getBoundingClientRect();
+
+      const paddleCentre = paddleRect.top + paddleRect.height / 2
+      const ballCentre = ballRect.top + ballRect.height / 2
+
+      const buffer = 20;
+      const error = Math.random() * 30;
+      const delay = 0.12;
+
+      timeRef.current += delta;
+
+      // Prevent jitter and also make AI dumber with delay and error margin
+      if (timeRef.current >= delay) {
+        const target = ballCentre + error;
+        const diff = target - paddleCentre;
+
+        if (Math.abs(diff) < buffer) {
+          padDir.current = 0;
+        } else {
+          padDir.current = Math.sign(diff);
+        }
+
+        timeRef.current = 0;
+      }
+    }
+
     let newY = y + padSpeed * padDir.current * delta;
 
     // Clamp to window
-    return Math.min(Math.max(0, newY), window.innerHeight - paddleHeight);
+    return Math.min(Math.max(0, newY), window.innerHeight - paddleRect.height);
   };
 
   const handleKeyDown = (event) => {
@@ -82,7 +112,7 @@ function Paddle({ owner }) {
   };
 
   const handleKeyUp = (event) => {
-    // Stop paddle movement when associated key released
+    // Stop paddle movement when associated key is released
     if (
       (event.key === 'ArrowUp' && padDir.current === -1) ||
       (event.key === 'ArrowDown' && padDir.current === 1)
